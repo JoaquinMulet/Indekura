@@ -1,3 +1,65 @@
+.consultas-container {
+  padding: 2rem;
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  align-items: center;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-form input:focus {
+  border-color: #94a3b8;
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1);
+}
+
+.search-form input::placeholder {
+  color: #94a3b8;
+}
+
+.search-form button {
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.search-form button:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -10,274 +72,171 @@
   border: 0;
 }
 
-.consultas-container {
-  padding: 6rem 2rem 2rem;
-  min-height: 100vh;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.consultas-content {
   width: 100%;
-  box-sizing: border-box;
+  max-width: 1800px;
+  padding: 2rem;
+  background: #ffffff;
 }
 
-.consultas-title {
-  color: #004D40;
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: 'Satoshi', sans-serif;
+.loading {
   text-align: center;
-  margin: 0;
-  padding-bottom: 1rem;
-}
-
-.search-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-  position: relative;
-  width: 100%;
-}
-
-.search-form {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 0;
-}
-
-.ticker-input {
-  padding: 0.75rem 1.2rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  font-family: 'Satoshi', sans-serif;
-  font-size: 1rem;
-  width: 200px;
-  text-transform: uppercase;
   color: #333;
-  background-color: white;
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
+  padding: 2rem;
+  font-size: 0.95rem;
 }
 
-.ticker-input:focus {
-  outline: none;
-  border-color: #004D40;
-  box-shadow: 0 0 0 3px rgba(0, 77, 64, 0.1);
-  background-color: white;
-}
-
-.ticker-input::placeholder {
-  color: #9E9E9E;
-  font-weight: 400;
-}
-
-.search-button, .download-button {
-  padding: 0.75rem 1.5rem;
-  background-color: white;
-  color: #004D40;
-  border: 1px solid #004D40;
-  border-radius: 6px;
-  font-family: 'Satoshi', sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.search-button:disabled {
-  border-color: #ccc;
-  color: #ccc;
-  cursor: not-allowed;
-}
-
-.download-button:hover {
-  background-color: #004D40;
-  border: 1px solid #004D40;
-}
-
-.download-section {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-}
-
-.financial-data-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.financial-table-container {
-  width: 100%;
-  overflow-x: auto;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.financial-table-container h3 {
-  color: #004D40;
-  font-family: 'Satoshi', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  padding-left: 1rem;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-.financial-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-family: 'Satoshi', sans-serif;
-}
-
-.financial-table th {
-  background-color: #004D40;
-  color: white;
-  font-weight: 600;
-  text-align: left;
-  padding: 1rem;
-  white-space: nowrap;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.financial-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e0e0e0;
-  color: #000000;
-}
-
-.financial-table td:first-child {
-  font-weight: 500;
-  position: sticky;
-  left: 0;
-  background: white;
-  z-index: 1;
-}
-
-.financial-table tbody tr:hover td {
-  background-color: #f5f5f5;
-}
-
-.financial-table tbody tr:hover td:first-child {
-  background-color: #f5f5f5;
-}
-
-.error-message {
-  color: #d32f2f;
-  background-color: #ffebee;
-  padding: 1rem;
-  border-radius: 4px;
+.error {
+  color: #ef4444;
   text-align: center;
-  font-family: 'Satoshi', sans-serif;
+  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  margin: 1rem auto;
+  max-width: 500px;
+  font-size: 0.95rem;
 }
 
-.password-dialog-overlay {
+.results-container {
+  margin-top: 2rem;
+  position: relative;
+}
+
+.export-button {
+  position: absolute;
+  top: -3.5rem;
+  right: 0;
+  padding: 0.6rem 1.2rem;
+  background: #ffffff !important;
+  color: #333 !important;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.password-dialog {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 1000;
 }
 
-.password-dialog {
-  background: white;
+.password-dialog-content {
+  background: #ffffff;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   width: 90%;
   max-width: 400px;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+  border: 1px solid #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.password-dialog h3 {
-  color: #004D40;
+.password-dialog h2 {
   margin: 0 0 1.5rem;
+  font-size: 1.4rem;
+  color: #333;
+  font-weight: 500;
   text-align: center;
-  font-family: 'Satoshi', sans-serif;
-}
-
-.password-input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  margin-bottom: 1.5rem;
-  font-family: 'Satoshi', sans-serif;
-  font-size: 1rem;
 }
 
-.password-input:focus {
+.password-dialog input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  margin: 0.5rem 0 1.5rem;
+  font-size: 0.95rem;
+  background: #ffffff;
+  color: #333;
   outline: none;
-  border-color: #004D40;
-  box-shadow: 0 0 0 3px rgba(0, 77, 64, 0.1);
+  transition: all 0.2s ease;
+}
+
+.password-dialog input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
 }
 
 .password-dialog-buttons {
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
 }
 
-.confirm-button,
-.cancel-button {
-  padding: 0.75rem 1.5rem;
+.password-dialog button {
+  flex: 1;
+  max-width: 150px;
+  padding: 0.75rem;
+  border: 1px solid #ffffff;
   border-radius: 6px;
-  font-family: 'Satoshi', sans-serif;
-  font-weight: 500;
   cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background: #ffffff;
 }
 
-.confirm-button {
-  background-color: #004D40;
-  color: white;
-  border: none;
+.password-dialog button:first-child {
+  color: #333;
 }
 
-.cancel-button {
-  background-color: white;
-  color: #004D40;
-  border: 1px solid #004D40;
+.password-dialog button:first-child:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.password-dialog button:last-child {
+  color: #333;
+}
+
+.password-dialog button:last-child:hover {
+  background: #ffffff;
+  border-color: #ffffff;
 }
 
 @media (max-width: 768px) {
   .consultas-container {
-    padding: 5rem 1rem 1rem;
+    padding: 1.5rem;
   }
 
-  .consultas-title {
-    font-size: 1.5rem;
+  .search-section {
+    flex-direction: column;
   }
 
   .search-form {
     flex-direction: column;
-    gap: 0.5rem;
   }
 
-  .ticker-input {
+  .search-form button {
     width: 100%;
   }
 
-  .search-button {
+  .export-button {
+    position: static;
+    margin-bottom: 1.5rem;
     width: 100%;
+    justify-content: center;
   }
 
-  .financial-table td, 
-  .financial-table th {
-    padding: 0.5rem;
-    font-size: 0.9rem;
+  .password-dialog-content {
+    padding: 1.5rem;
+    margin: 1rem;
   }
 }

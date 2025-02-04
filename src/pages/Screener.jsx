@@ -3,12 +3,52 @@ import './Screener.css';
 
 const ITEMS_PER_PAGE = 50;
 
+// Definir las columnas que queremos mostrar y su orden
+const DISPLAY_COLUMNS = [
+  { key: 'score_final', label: 'Score' },
+  { key: 'symbol', label: 'Symbol' },
+  { key: 'companyName', label: 'Company Name' },
+  { key: 'sector', label: 'Sector' },
+  { key: 'industry', label: 'Industry' },
+  { key: 'current_price', label: 'Current Price' },
+  { key: 'fair_value_min', label: 'Min Fair Value' },
+  { key: 'fair_value_max', label: 'Max Fair Value' },
+  { key: 'reported_currency', label: 'Currency' }
+];
+
 const Screener = () => {
   const [data, setData] = useState([]);
-  const [headers, setHeaders] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+
+  // Función para parsear una línea de CSV respetando las comillas dobles
+  const parseCSVLine = (line) => {
+    const result = [];
+    let currentValue = '';
+    let insideQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      
+      if (char === '"') {
+        if (insideQuotes && line[i + 1] === '"') {
+          currentValue += '"';
+          i++;
+        } else {
+          insideQuotes = !insideQuotes;
+        }
+      } else if (char === ',' && !insideQuotes) {
+        result.push(currentValue.trim());
+        currentValue = '';
+      } else {
+        currentValue += char;
+      }
+    }
+    
+    result.push(currentValue.trim());
+    return result;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,22 +64,39 @@ const Screener = () => {
           throw new Error('CSV está vacío');
         }
 
-        const headerRow = lines[0];
-        const headerColumns = headerRow.split(',').map(header => header.trim());
-        setHeaders(headerColumns);
+        // Procesar encabezados y crear un mapa de índices
+        const headerLine = parseCSVLine(lines[0]);
+        const headerIndexMap = {};
+        headerLine.forEach((header, index) => {
+          headerIndexMap[header.trim()] = index;
+        });
 
+        // Procesar datos solo para las columnas que queremos mostrar
         const dataRows = lines.slice(1);
         const formattedData = dataRows.map(row => {
-          const values = row.split(',').map(value => value.trim());
+          const values = parseCSVLine(row);
           const rowData = {};
-          headerColumns.forEach((header, index) => {
-            rowData[header] = values[index] || '';
+          
+          DISPLAY_COLUMNS.forEach(({ key }) => {
+            const index = headerIndexMap[key];
+            if (index !== undefined) {
+              const value = values[index] || '';
+              // Convertir valores numéricos excepto para campos específicos
+              if (!['symbol', 'companyName', 'sector', 'industry', 'reported_currency'].includes(key)) {
+                const numValue = value.replace(/[^0-9.-]/g, '');
+                rowData[key] = !isNaN(numValue) && numValue !== '' ? parseFloat(numValue) : value;
+              } else {
+                rowData[key] = value;
+              }
+            }
           });
           return rowData;
         });
         
-        setData(formattedData);
-        setTotalPages(Math.ceil(formattedData.length / ITEMS_PER_PAGE));
+        // Ordenar por score_final de mayor a menor
+        const sortedData = formattedData.sort((a, b) => b.score_final - a.score_final);
+        setData(sortedData);
+        setTotalPages(Math.ceil(sortedData.length / ITEMS_PER_PAGE));
       } catch (error) {
         console.error('Error loading data:', error);
         setError(error.message);
@@ -69,24 +126,22 @@ const Screener = () => {
     }
   };
 
-  const formatNumber = (value) => {
-    if (typeof value === 'number') {
+  const formatNumber = (value, key) => {
+    if (typeof value !== 'number') return value;
+    
+    if (key === 'score_final') {
+      return value.toFixed(2);
+    }
+    
+    if (['current_price', 'fair_value_min', 'fair_value_max'].includes(key)) {
       return new Intl.NumberFormat('en-US', {
         style: 'decimal',
-        minimumFractionDigits: 0,
+        minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }).format(value);
     }
+    
     return value;
-  };
-
-  const renderTableCell = (item, column) => {
-    const value = item[column.key];
-    return (
-      <td key={column.key}>
-        {formatNumber(value)}
-      </td>
-    );
   };
 
   if (error) {
@@ -95,49 +150,48 @@ const Screener = () => {
 
   return (
     <div className="screener-container">
-      <h2 className="screener-title">Market Screener</h2>
+      <h1 className="page-title">Market Screener</h1>
       <div className="table-container">
-        {headers.length > 0 && (
-          <>
-            <table className="data-table">
-              <thead>
-                <tr>
-                  {headers.map((header, index) => (
-                    <th key={index}>{header}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {getCurrentPageData().map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {headers.map((header, colIndex) => (
-                      renderTableCell(row, { key: header })
-                    ))}
-                  </tr>
+        <table className="data-table">
+          <thead>
+            <tr>
+              {DISPLAY_COLUMNS.map(({ key, label }) => (
+                <th key={key}>{label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {getCurrentPageData().map((item, rowIndex) => (
+              <tr key={rowIndex}>
+                {DISPLAY_COLUMNS.map(({ key }) => (
+                  <td key={`${rowIndex}-${key}`} className={key === 'score_final' ? 'score-column' : ''}>
+                    {formatNumber(item[key], key)}
+                  </td>
                 ))}
-              </tbody>
-            </table>
-            <div className="pagination">
-              <button 
-                className="pagination-button"
-                onClick={goToPreviousPage}
-                disabled={currentPage === 0}
-              >
-                ← Anterior
-              </button>
-              <span className="page-info">
-                Página {currentPage + 1} de {totalPages}
-              </span>
-              <button 
-                className="pagination-button"
-                onClick={goToNextPage}
-                disabled={currentPage === totalPages - 1}
-              >
-                Siguiente →
-              </button>
-            </div>
-          </>
-        )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="pagination">
+        <button 
+          onClick={goToPreviousPage} 
+          disabled={currentPage === 0}
+          className="pagination-button"
+        >
+          Anterior
+        </button>
+        <span className="page-info">
+          Página {currentPage + 1} de {totalPages}
+        </span>
+        <button 
+          onClick={goToNextPage} 
+          disabled={currentPage === totalPages - 1}
+          className="pagination-button"
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );

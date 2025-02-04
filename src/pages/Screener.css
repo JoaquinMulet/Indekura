@@ -2,52 +2,82 @@
   color: #d32f2f;
   padding: 1rem;
   margin: 1rem;
-  background-color: #ffebee;
+  background-color: #ffffff;
   border-radius: 4px;
   font-family: 'Satoshi', sans-serif;
 }
 
 .screener-container {
-  padding: 6rem 2rem 2rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #ffffff;
   min-height: 100vh;
-  background-color: white;
   display: flex;
   flex-direction: column;
-  width: 100%;
   box-sizing: border-box;
 }
 
-.screener-title {
-  color: #004D40;
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: 'Satoshi', sans-serif;
-  margin: 0;
-  padding-bottom: 1rem;
-  position: sticky;
-  top: 5rem;
-  background: white;
-  z-index: 10;
+.screener-container h1 {
+  font-size: 2.5rem;
+  color: var(--corporate-green);
+  font-weight: 600;
+  text-align: center;
+  margin: 1rem 0 2rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.screener-section h2 {
+  font-size: 1.8rem;
+  color: var(--corporate-green);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .table-container {
-  width: 100%;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  max-height: calc(100vh - 15rem);
+  overflow-x: auto;
+  background: #ffffff;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* Estilos para WebKit (Chrome, Safari, etc.) */
+.table-container::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+.table-container {
   overflow: auto;
   box-sizing: border-box;
+  width: 100%;
+  max-height: calc(100vh - 15rem);
+  border-radius: 8px;
+  box-shadow: none;
 }
 
 .data-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
+  font-size: 0.9rem;
   font-family: 'Satoshi', sans-serif;
   color: #000000;
+  background: #ffffff;
 }
 
 .data-table thead {
@@ -57,89 +87,170 @@
 }
 
 .data-table th {
-  background-color: #004D40;
-  color: white;
-  font-weight: 600;
+  background: #ffffff;
+  padding: 12px;
   text-align: left;
-  padding: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  border-bottom: 1px solid #ffffff;
   white-space: nowrap;
 }
 
 .data-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e0e0e0;
-  color: #000000;
-  background: white;
+  padding: 12px;
+  border-bottom: 1px solid #ffffff;
+  color: #4a4a4a;
 }
 
-.data-table tbody tr:hover td {
-  background-color: #f5f5f5;
+.data-table tr:hover {
+  background-color: #ffffff;
+}
+
+/* Estilos específicos para cada tipo de columna */
+.data-table td:nth-child(1) {  /* Score */
+  font-weight: 600;
+  color: #2563eb;
+  text-align: center;
+}
+
+.data-table td:nth-child(2) {  /* Symbol */
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.data-table td:nth-child(3) {  /* Company Name */
+  min-width: 200px;
+}
+
+.data-table td:nth-child(4),   /* Sector */
+.data-table td:nth-child(5) {  /* Industry */
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.data-table td:nth-child(6),   /* Current Price */
+.data-table td:nth-child(7),   /* Min Fair Value */
+.data-table td:nth-child(8) {  /* Max Fair Value */
+  font-family: monospace;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+.data-table td:nth-child(9) {  /* Currency */
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
   gap: 1rem;
-  background-color: white;
-  border-top: 1px solid #e0e0e0;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-top: 1px solid #ffffff;
   position: sticky;
   bottom: 0;
   z-index: 5;
 }
 
 .pagination-button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #004D40;
-  background-color: white;
-  color: #004D40;
+  padding: 8px 16px;
+  border: 1px solid #ffffff;
+  background: #ffffff;
+  color: #1a1a1a;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
   font-family: 'Satoshi', sans-serif;
   font-weight: 500;
-  transition: all 0.2s ease;
 }
 
 .pagination-button:hover:not(:disabled) {
-  background-color: #004D40;
-  color: white;
+  background: #ffffff;
+  border-color: #ffffff;
 }
 
 .pagination-button:disabled {
-  border-color: #ccc;
-  color: #ccc;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .page-info {
-  color: #004D40;
+  font-size: 0.9rem;
+  color: #666;
   font-family: 'Satoshi', sans-serif;
   font-weight: 500;
 }
 
+.search-form {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 500px;
+  margin: 0 auto 3rem;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: #f8fafc;
+  color: #333;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-form input:focus {
+  border-color: #94a3b8;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1);
+}
+
+.search-form input::placeholder {
+  color: #94a3b8;
+}
+
+.search-form button {
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-form button:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.table-header {
+  font-weight: 600;
+  color: var(--corporate-green);
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
 @media (max-width: 768px) {
   .screener-container {
-    padding: 5rem 1rem 1rem;
+    padding: 10px;
   }
   
-  .screener-title {
-    font-size: 1.5rem;
-    top: 4rem;
+  .data-table {
+    font-size: 0.8rem;
   }
   
-  .table-container {
-    max-height: calc(100vh - 12rem);
-  }
-  
-  .data-table td, 
+  .data-table td,
   .data-table th {
-    padding: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .pagination {
-    flex-direction: column;
-    gap: 0.5rem;
+    padding: 8px;
   }
 }

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import './Consultas.css';
+import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
+import FinancialCharts from '../components/FinancialCharts/FinancialCharts';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const APP_PASSWORD = import.meta.env.VITE_APP_PASSWORD;
@@ -13,6 +15,7 @@ const Consultas = () => {
 
   const [ticker, setTicker] = useState('');
   const [financialData, setFinancialData] = useState(null);
+  const [companyProfile, setCompanyProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
@@ -23,19 +26,51 @@ const Consultas = () => {
     setLoading(true);
     setError(null);
     try {
-      const [incomeStatement, balanceSheet, cashFlow, estimates] = await Promise.all([
+      const [incomeStatement, balanceSheet, cashFlow, estimates, profile] = await Promise.all([
         axios.get(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&apikey=${API_KEY}`),
         axios.get(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=annual&apikey=${API_KEY}`),
         axios.get(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=annual&apikey=${API_KEY}`),
-        axios.get(`https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${API_KEY}`)
+        axios.get(`https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${API_KEY}`),
+        axios.get(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${API_KEY}`)
       ]);
 
+      // Imprimir columnas de cada tabla
+      if (incomeStatement.data && incomeStatement.data.length > 0) {
+        console.log('Income Statement Columns:', Object.keys(incomeStatement.data[0]));
+      }
+      
+      if (balanceSheet.data && balanceSheet.data.length > 0) {
+        console.log('Balance Sheet Columns:', Object.keys(balanceSheet.data[0]));
+      }
+      
+      if (cashFlow.data && cashFlow.data.length > 0) {
+        console.log('Cash Flow Columns:', Object.keys(cashFlow.data[0]));
+      }
+      
+      if (estimates.data && estimates.data.length > 0) {
+        console.log('Estimates Columns:', Object.keys(estimates.data[0]));
+      }
+      
+      if (profile.data && profile.data.length > 0) {
+        console.log('Company Profile Columns:', Object.keys(profile.data[0]));
+      }
+
+      // Ordenar los datos cronológicamente antes de guardarlos
+      const sortChronologically = (data) => {
+        if (!data || !Array.isArray(data)) return [];
+        return [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+      };
+
       setFinancialData({
-        incomeStatement: incomeStatement.data,
-        balanceSheet: balanceSheet.data,
-        cashFlow: cashFlow.data,
-        estimates: estimates.data
+        incomeStatement: sortChronologically(incomeStatement.data),
+        balanceSheet: sortChronologically(balanceSheet.data),
+        cashFlow: sortChronologically(cashFlow.data),
+        estimates: sortChronologically(estimates.data)
       });
+      
+      if (profile.data && profile.data.length > 0) {
+        setCompanyProfile(profile.data[0]);
+      }
     } catch (err) {
       setError('Error al obtener los datos financieros. Por favor, verifica el ticker.');
     }
@@ -51,324 +86,162 @@ const Consultas = () => {
   };
 
   const handlePasswordSubmit = (e) => {
-    e.preventDefault();
-    if (password === APP_PASSWORD) {
-      setShowPasswordDialog(false);
-      setPassword('');
-      setTicker(tempTicker);
-      fetchFinancialData();
-    } else {
-      setError('Contraseña incorrecta');
-      setPassword('');
-    }
-  };
-
-  const downloadExcel = () => {
-    if (!financialData) return;
-
-    try {
-      const wb = XLSX.utils.book_new();
-
-      const processSheet = (data, sheetName) => {
-        if (!data || data.length === 0) return;
-        
-        // Ordenar los datos por fecha de más antiguo a más reciente
-        const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
-        const years = sortedData.map(item => new Date(item.date).getFullYear());
-        const excludeColumns = ['symbol', 'reportedCurrency', 'cik', 'fillingDate', 'acceptedDate', 'calendarYear', 'period', 'link', 'finalLink', 'date'];
-        
-        const concepts = Object.keys(sortedData[0]).filter(key => !excludeColumns.includes(key));
-        
-        const sheetData = [
-          ['Concepto', ...years]
-        ];
-        
-        concepts.forEach(concept => {
-          const row = [
-            concept.replace(/([A-Z])/g, ' $1').trim(),
-            ...sortedData.map(item => item[concept])
-          ];
-          sheetData.push(row);
-        });
-
-        const ws = XLSX.utils.aoa_to_sheet(sheetData);
-        
-        const colWidths = [
-          { wch: 40 },
-          ...years.map(() => ({ wch: 15 }))
-        ];
-        ws['!cols'] = colWidths;
-
-        XLSX.utils.book_append_sheet(wb, ws, sheetName);
-      };
-
-      // Procesar estados financieros
-      processSheet(financialData.incomeStatement, 'Estado de Resultados');
-      processSheet(financialData.balanceSheet, 'Balance General');
-      processSheet(financialData.cashFlow, 'Flujo de Efectivo');
-
-      // Procesar estimates
-      if (financialData.estimates && financialData.estimates.length > 0) {
-        const estimatesData = financialData.estimates;
-        const sortedEstimates = [...estimatesData].sort((a, b) => new Date(a.date) - new Date(b.date));
-        const years = sortedEstimates.map(item => new Date(item.date).getFullYear());
-        
-        const estimatesSheet = [
-          ['Concepto', ...years]
-        ];
-
-        const metrics = [
-          { key: 'estimatedRevenueAvg', label: 'Ingresos Estimados Promedio' },
-          { key: 'estimatedRevenueHigh', label: 'Ingresos Estimados Alto' },
-          { key: 'estimatedRevenueLow', label: 'Ingresos Estimados Bajo' },
-          { key: 'estimatedEbitdaAvg', label: 'EBITDA Estimado Promedio' },
-          { key: 'estimatedEbitdaHigh', label: 'EBITDA Estimado Alto' },
-          { key: 'estimatedEbitdaLow', label: 'EBITDA Estimado Bajo' },
-          { key: 'estimatedEbitAvg', label: 'EBIT Estimado Promedio' },
-          { key: 'estimatedEbitHigh', label: 'EBIT Estimado Alto' },
-          { key: 'estimatedEbitLow', label: 'EBIT Estimado Bajo' },
-          { key: 'estimatedNetIncomeAvg', label: 'Utilidad Neta Estimada Promedio' },
-          { key: 'estimatedNetIncomeHigh', label: 'Utilidad Neta Estimada Alta' },
-          { key: 'estimatedNetIncomeLow', label: 'Utilidad Neta Estimada Baja' },
-          { key: 'estimatedEpsAvg', label: 'EPS Estimado Promedio' },
-          { key: 'estimatedEpsHigh', label: 'EPS Estimado Alto' },
-          { key: 'estimatedEpsLow', label: 'EPS Estimado Bajo' },
-          { key: 'numberAnalystEstimatedRevenue', label: 'Número de Analistas (Ingresos)' },
-          { key: 'numberAnalystsEstimatedEps', label: 'Número de Analistas (EPS)' }
-        ];
-
-        metrics.forEach(({ key, label }) => {
-          const row = [
-            label,
-            ...sortedEstimates.map(item => item[key])
-          ];
-          estimatesSheet.push(row);
-        });
-
-        const ws = XLSX.utils.aoa_to_sheet(estimatesSheet);
-        const colWidths = [
-          { wch: 40 },
-          ...years.map(() => ({ wch: 15 }))
-        ];
-        ws['!cols'] = colWidths;
-
-        XLSX.utils.book_append_sheet(wb, ws, 'Estimaciones');
+    if (e.key === 'Enter' || e.type === 'click') {
+      if (password === APP_PASSWORD) {
+        setShowPasswordDialog(false);
+        setPassword('');
+        setTicker(tempTicker);
+        fetchFinancialData();
+      } else {
+        setError('Contraseña incorrecta');
+        setPassword('');
       }
-
-      XLSX.writeFile(wb, `${ticker}_estados_financieros.xlsx`);
-    } catch (err) {
-      setError('Error al generar el archivo Excel');
     }
   };
 
-  const renderFinancialTable = (data, title) => {
-    if (!data || data.length === 0) return null;
+  const handleExportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
     
-    // Ordenar los datos por fecha de más antiguo a más reciente
-    const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
-    const years = sortedData.map(item => new Date(item.date).getFullYear());
-    
-    const keys = Object.keys(sortedData[0]).filter(key => 
-      key !== 'date' && 
-      key !== 'symbol' && 
-      key !== 'reportedCurrency' &&
-      key !== 'cik' &&
-      key !== 'fillingDate' &&
-      key !== 'acceptedDate' &&
-      key !== 'calendarYear' &&
-      key !== 'period' &&
-      key !== 'link' &&
-      key !== 'finalLink'
-    );
+    // Función para transponer datos
+    const transposeData = (data) => {
+      if (!data || data.length === 0) return [];
+      const headers = Object.keys(data[0]).filter(key => key !== 'date');
+      const years = data.map(item => item.date);
+      
+      return headers.map(header => {
+        return [header, ...data.map(item => item[header])];
+      });
+    };
 
-    return (
-      <div className="financial-table-container">
-        <h3>{title}</h3>
-        <div className="table-wrapper">
-          <table className="financial-table">
-            <thead>
-              <tr>
-                <th>Concepto</th>
-                {years.map(year => (
-                  <th key={year}>{year}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {keys.map(key => (
-                <tr key={key}>
-                  <td>{key.replace(/([A-Z])/g, ' $1').trim()}</td>
-                  {sortedData.map((item, index) => (
-                    <td key={index}>
-                      {typeof item[key] === 'number' 
-                        ? new Intl.NumberFormat('en-US', {
-                            style: 'decimal',
-                            maximumFractionDigits: 0
-                          }).format(item[key])
-                        : item[key]}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  };
+    // Función para crear y formatear una hoja
+    const createSheet = (name, data) => {
+      const sheet = workbook.addWorksheet(name);
+      const transposedData = transposeData(data);
+      
+      // Agregar años como encabezados
+      const years = data.map(item => item.date);
+      sheet.getRow(1).values = ['Concepto', ...years];
+      
+      // Agregar datos
+      transposedData.forEach((row, index) => {
+        sheet.getRow(index + 2).values = row;
+      });
+      
+      // Formatear encabezados
+      const headerRow = sheet.getRow(1);
+      headerRow.font = { bold: true };
+      headerRow.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFE2E8F0' }
+      };
+      
+      // Ajustar ancho de columnas
+      sheet.columns.forEach(column => {
+        column.width = 15;
+      });
+      
+      // Agregar bordes a todas las celdas con datos
+      const lastRow = sheet.lastRow.number;
+      const lastCol = sheet.lastColumn.number;
+      for (let row = 1; row <= lastRow; row++) {
+        for (let col = 1; col <= lastCol; col++) {
+          const cell = sheet.getCell(row, col);
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
+          };
+        }
+      }
+    };
 
-  const renderEstimatesTable = () => {
-    if (!financialData || !financialData.estimates) return null;
+    // Crear hojas para cada tipo de estado financiero
+    if (financialData.incomeStatement.length > 0) {
+      createSheet('Income Statement', financialData.incomeStatement);
+    }
+    if (financialData.balanceSheet.length > 0) {
+      createSheet('Balance Sheet', financialData.balanceSheet);
+    }
+    if (financialData.cashFlow.length > 0) {
+      createSheet('Cash Flow', financialData.cashFlow);
+    }
+    if (financialData.estimates.length > 0) {
+      createSheet('Estimates', financialData.estimates);
+    }
 
-    const estimatesData = financialData.estimates;
-    const sortedEstimates = [...estimatesData].sort((a, b) => new Date(a.date) - new Date(b.date));
-    const years = sortedEstimates.map(item => new Date(item.date).getFullYear());
-
-    const metrics = [
-      { key: 'estimatedRevenueAvg', label: 'Ingresos Estimados Promedio' },
-      { key: 'estimatedRevenueHigh', label: 'Ingresos Estimados Alto' },
-      { key: 'estimatedRevenueLow', label: 'Ingresos Estimados Bajo' },
-      { key: 'estimatedEbitdaAvg', label: 'EBITDA Estimado Promedio' },
-      { key: 'estimatedEbitdaHigh', label: 'EBITDA Estimado Alto' },
-      { key: 'estimatedEbitdaLow', label: 'EBITDA Estimado Bajo' },
-      { key: 'estimatedEbitAvg', label: 'EBIT Estimado Promedio' },
-      { key: 'estimatedEbitHigh', label: 'EBIT Estimado Alto' },
-      { key: 'estimatedEbitLow', label: 'EBIT Estimado Bajo' },
-      { key: 'estimatedNetIncomeAvg', label: 'Utilidad Neta Estimada Promedio' },
-      { key: 'estimatedNetIncomeHigh', label: 'Utilidad Neta Estimada Alta' },
-      { key: 'estimatedNetIncomeLow', label: 'Utilidad Neta Estimada Baja' },
-      { key: 'estimatedEpsAvg', label: 'EPS Estimado Promedio' },
-      { key: 'estimatedEpsHigh', label: 'EPS Estimado Alto' },
-      { key: 'estimatedEpsLow', label: 'EPS Estimado Bajo' },
-      { key: 'numberAnalystEstimatedRevenue', label: 'Número de Analistas (Ingresos)' },
-      { key: 'numberAnalystsEstimatedEps', label: 'Número de Analistas (EPS)' }
-    ];
-
-    return (
-      <div className="financial-table-container">
-        <h3>Estimaciones</h3>
-        <div className="table-wrapper">
-          <table className="financial-table">
-            <thead>
-              <tr>
-                <th>Concepto</th>
-                {years.map(year => (
-                  <th key={year}>{year}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {metrics.map(({ key, label }) => (
-                <tr key={key}>
-                  <td>{label}</td>
-                  {sortedEstimates.map((item, index) => (
-                    <td key={index}>
-                      {typeof item[key] === 'number' 
-                        ? new Intl.NumberFormat('en-US', {
-                            style: 'decimal',
-                            maximumFractionDigits: 0
-                          }).format(item[key])
-                        : item[key]}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
+    // Generar y descargar el archivo
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${ticker}_financial_data.xlsx`;
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   return (
-    <main className="consultas-container">
-      <header>
-        <h1 className="consultas-title">Consulta de Estados Financieros</h1>
-      </header>
-      
-      <section className="search-section" aria-label="Búsqueda de empresa">
-        <form onSubmit={handleSubmit} className="search-form" role="search">
-          <label htmlFor="ticker-input" className="visually-hidden">
-            Símbolo de la empresa
-          </label>
+    <div className="consultas-container">
+      <div className="consultas-content">
+        <h1 className="page-title">Consultas</h1>
+        <form className="search-form" onSubmit={handleSubmit}>
           <input
-            id="ticker-input"
             type="text"
             value={ticker}
             onChange={(e) => setTicker(e.target.value.toUpperCase())}
-            placeholder="Ej: AAPL"
-            className="ticker-input"
-            aria-label="Ingrese el símbolo de la empresa"
+            placeholder="Ingrese el símbolo (ej: AAPL)"
           />
-          <button type="submit" className="search-button" disabled={loading}>
-            {loading ? 'Cargando...' : 'Buscar'}
-          </button>
-        </form>
-      </section>
-
-      {error && (
-        <div className="error-message" role="alert" aria-live="polite">
-          {error}
-        </div>
-      )}
-
-      {showPasswordDialog && (
-        <div className="password-dialog-overlay" role="dialog" aria-modal="true" aria-labelledby="password-dialog-title">
-          <div className="password-dialog">
-            <h2 id="password-dialog-title">Ingrese la contraseña</h2>
-            <form onSubmit={handlePasswordSubmit}>
-              <label htmlFor="password-input" className="visually-hidden">
-                Contraseña
-              </label>
-              <input
-                id="password-input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="password-input"
-                autoFocus
-                aria-label="Ingrese la contraseña"
-              />
-              <div className="password-dialog-buttons">
-                <button type="submit" className="confirm-button">
-                  Confirmar
-                </button>
-                <button
-                  type="button"
-                  className="cancel-button"
-                  onClick={() => {
-                    setShowPasswordDialog(false);
-                    setPassword('');
-                    setError(null);
-                  }}
-                >
-                  Cancelar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {financialData && (
-        <section className="financial-data-container" aria-label="Resultados financieros">
-          <div className="download-section">
-            <button 
-              onClick={downloadExcel} 
-              className="download-button"
-              aria-label="Descargar datos en Excel"
-            >
+          <button type="submit">Buscar</button>
+          {financialData && (
+            <button type="button" onClick={handleExportToExcel}>
               Descargar Excel
             </button>
-          </div>
+          )}
+        </form>
 
-          {renderFinancialTable(financialData.incomeStatement, 'Estado de Resultados')}
-          {renderFinancialTable(financialData.balanceSheet, 'Balance General')}
-          {renderFinancialTable(financialData.cashFlow, 'Flujo de Efectivo')}
-          {renderEstimatesTable()}
-        </section>
-      )}
-    </main>
+        {loading && <div className="loading">Cargando...</div>}
+        {error && <div className="error">{error}</div>}
+        
+        {companyProfile && <CompanyProfile profile={companyProfile} />}
+
+        {financialData && (
+          <div className="results-container">
+            <FinancialCharts financialData={financialData} />
+          </div>
+        )}
+
+        {showPasswordDialog && (
+          <div className="password-dialog">
+            <div className="password-dialog-content">
+              <h2>Ingrese la contraseña</h2>
+              <form>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Contraseña"
+                  autoComplete="current-password"
+                  name="password"
+                  autoFocus
+                  onKeyDown={handlePasswordSubmit}
+                />
+                <div className="password-dialog-buttons">
+                  <button type="button" onClick={handlePasswordSubmit}>Confirmar</button>
+                  <button type="button" onClick={() => {
+                    setShowPasswordDialog(false);
+                    setPassword('');
+                  }}>
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

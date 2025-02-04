@@ -15,6 +15,9 @@ function Navbar() {
           <Link to="/consultas" className="nav-link">
             Consultas
           </Link>
+          <Link to="/nosotros" className="nav-link">
+            Legal
+          </Link>
         </div>
       </div>
     </nav>
