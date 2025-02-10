@@ -1,3 +1,22 @@
+.financial-charts-container {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.financial-charts-header {
+  margin-bottom: 24px;
+}
+
+.financial-charts-header h2 {
+  color: var(--corporate-green);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
 .financial-charts {
   width: 100%;
   max-width: 1400px;

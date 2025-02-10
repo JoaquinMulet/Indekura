@@ -4,6 +4,7 @@ import ExcelJS from 'exceljs';
 import './Consultas.css';
 import CompanyProfile from '../components/CompanyProfile/CompanyProfile';
 import FinancialCharts from '../components/FinancialCharts/FinancialCharts';
+import IndekuraValuation from '../components/IndekuraValuation/IndekuraValuation';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const APP_PASSWORD = import.meta.env.VITE_APP_PASSWORD;
@@ -13,7 +14,8 @@ const Consultas = () => {
     document.title = 'Indekura Hedge Fund - Consulta de Estados Financieros';
   }, []);
 
-  const [ticker, setTicker] = useState('');
+  const [searchTicker, setSearchTicker] = useState('');
+  const [currentTicker, setCurrentTicker] = useState('');
   const [financialData, setFinancialData] = useState(null);
   const [companyProfile, setCompanyProfile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -22,10 +24,14 @@ const Consultas = () => {
   const [password, setPassword] = useState('');
   const [tempTicker, setTempTicker] = useState('');
 
-  const fetchFinancialData = async () => {
+  const fetchFinancialData = async (ticker) => {
     setLoading(true);
     setError(null);
+    setFinancialData(null);
+    setCompanyProfile(null);
+
     try {
+      console.log('Fetching data for ticker:', ticker); // Debug log
       const [incomeStatement, balanceSheet, cashFlow, estimates, profile] = await Promise.all([
         axios.get(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&apikey=${API_KEY}`),
         axios.get(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=annual&apikey=${API_KEY}`),
@@ -34,44 +40,28 @@ const Consultas = () => {
         axios.get(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${API_KEY}`)
       ]);
 
-      // Imprimir columnas de cada tabla
-      if (incomeStatement.data && incomeStatement.data.length > 0) {
-        console.log('Income Statement Columns:', Object.keys(incomeStatement.data[0]));
-      }
-      
-      if (balanceSheet.data && balanceSheet.data.length > 0) {
-        console.log('Balance Sheet Columns:', Object.keys(balanceSheet.data[0]));
-      }
-      
-      if (cashFlow.data && cashFlow.data.length > 0) {
-        console.log('Cash Flow Columns:', Object.keys(cashFlow.data[0]));
-      }
-      
-      if (estimates.data && estimates.data.length > 0) {
-        console.log('Estimates Columns:', Object.keys(estimates.data[0]));
-      }
-      
-      if (profile.data && profile.data.length > 0) {
-        console.log('Company Profile Columns:', Object.keys(profile.data[0]));
-      }
-
       // Ordenar los datos cronológicamente antes de guardarlos
       const sortChronologically = (data) => {
         if (!data || !Array.isArray(data)) return [];
         return [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
       };
 
-      setFinancialData({
+      const newFinancialData = {
         incomeStatement: sortChronologically(incomeStatement.data),
         balanceSheet: sortChronologically(balanceSheet.data),
         cashFlow: sortChronologically(cashFlow.data),
         estimates: sortChronologically(estimates.data)
-      });
-      
-      if (profile.data && profile.data.length > 0) {
+      };
+
+      if (profile.data && Array.isArray(profile.data) && profile.data.length > 0) {
         setCompanyProfile(profile.data[0]);
+        setFinancialData(newFinancialData);
+        setCurrentTicker(ticker);
+      } else {
+        setError(`No se encontró información para el ticker ${ticker}`);
       }
     } catch (err) {
+      console.error('Error fetching data:', err);
       setError('Error al obtener los datos financieros. Por favor, verifica el ticker.');
     }
     setLoading(false);
@@ -79,8 +69,9 @@ const Consultas = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (ticker.trim()) {
-      setTempTicker(ticker);
+    const trimmedTicker = searchTicker.trim().toUpperCase();
+    if (trimmedTicker) {
+      setTempTicker(trimmedTicker);
       setShowPasswordDialog(true);
     }
   };
@@ -90,8 +81,7 @@ const Consultas = () => {
       if (password === APP_PASSWORD) {
         setShowPasswordDialog(false);
         setPassword('');
-        setTicker(tempTicker);
-        fetchFinancialData();
+        fetchFinancialData(tempTicker);
       } else {
         setError('Contraseña incorrecta');
         setPassword('');
@@ -177,70 +167,81 @@ const Consultas = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${ticker}_financial_data.xlsx`;
+    a.download = `${currentTicker}_financial_data.xlsx`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
   return (
     <div className="consultas-container">
-      <div className="consultas-content">
-        <h1 className="page-title">Consultas</h1>
-        <form className="search-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={ticker}
-            onChange={(e) => setTicker(e.target.value.toUpperCase())}
-            placeholder="Ingrese el símbolo (ej: AAPL)"
-          />
-          <button type="submit">Buscar</button>
+      <div className="search-section">
+        <form onSubmit={handleSubmit} className="search-form">
+          <div className="search-inputs">
+            <input
+              type="text"
+              value={searchTicker}
+              onChange={(e) => setSearchTicker(e.target.value)}
+              placeholder="Ingrese el ticker (ej: AAPL)"
+              className="ticker-input"
+            />
+            <button type="submit" className="search-button">
+              Buscar
+            </button>
+          </div>
           {financialData && (
-            <button type="button" onClick={handleExportToExcel}>
+            <button type="button" onClick={handleExportToExcel} className="export-button">
               Descargar Excel
             </button>
           )}
         </form>
+      </div>
 
-        {loading && <div className="loading">Cargando...</div>}
-        {error && <div className="error">{error}</div>}
-        
-        {companyProfile && <CompanyProfile profile={companyProfile} />}
-
-        {financialData && (
-          <div className="results-container">
-            <FinancialCharts financialData={financialData} />
-          </div>
-        )}
-
-        {showPasswordDialog && (
-          <div className="password-dialog">
-            <div className="password-dialog-content">
-              <h2>Ingrese la contraseña</h2>
-              <form>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Contraseña"
-                  autoComplete="current-password"
-                  name="password"
-                  autoFocus
-                  onKeyDown={handlePasswordSubmit}
-                />
-                <div className="password-dialog-buttons">
-                  <button type="button" onClick={handlePasswordSubmit}>Confirmar</button>
-                  <button type="button" onClick={() => {
-                    setShowPasswordDialog(false);
-                    setPassword('');
-                  }}>
-                    Cancelar
-                  </button>
-                </div>
-              </form>
+      {showPasswordDialog && (
+        <div className="password-dialog">
+          <div className="password-dialog-content">
+            <h2>Ingrese la contraseña</h2>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={handlePasswordSubmit}
+              placeholder="Ingrese la contraseña"
+              className="password-input"
+              autoFocus
+            />
+            <div className="password-dialog-buttons">
+              <button onClick={handlePasswordSubmit} className="password-button">
+                Confirmar
+              </button>
+              <button 
+                onClick={() => {
+                  setShowPasswordDialog(false);
+                  setPassword('');
+                }} 
+                className="password-button cancel"
+              >
+                Cancelar
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {error && <div className="error-message">{error}</div>}
+      
+      {loading ? (
+        <div className="loading">Cargando datos...</div>
+      ) : (
+        <div className="results-container">
+          {companyProfile && <CompanyProfile profile={companyProfile} />}
+          {financialData && (
+            <>
+              <IndekuraValuation ticker={currentTicker} />
+              <FinancialCharts financialData={financialData} />
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

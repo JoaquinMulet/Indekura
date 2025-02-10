@@ -61,64 +61,69 @@ const FinancialCharts = ({ financialData }) => {
   };
 
   return (
-    <div className="charts-container">
-      <div className={`chart-section ${maximizedChart === 'shares' ? 'maximized' : ''}`}>
-        <div className="chart-header">
-          <h3>Shares & EPS Analysis</h3>
-          <div className="chart-controls">
-            <button onClick={() => handleResetZoom('shares')} className="reset-zoom-btn">
-              Reset Zoom
-            </button>
-            <button
-              onClick={() => setMaximizedChart(maximizedChart === 'shares' ? null : 'shares')}
-              className="maximize-btn"
-            >
-              {maximizedChart === 'shares' ? 'Minimize' : 'Maximize'}
-            </button>
-          </div>
-        </div>
-        <div className="chart-wrapper">
-          <SharesEPSChart data={sharesData} chartRef={chartRefs.shares} />
-        </div>
+    <div className="financial-charts-container">
+      <div className="financial-charts-header">
+        <h2>Beneficios & Du Pont</h2>
       </div>
-
-      <div className={`chart-section ${maximizedChart === 'dupont' ? 'maximized' : ''}`}>
-        <div className="chart-header">
-          <h3>DuPont Analysis</h3>
-          <div className="chart-controls">
-            <button onClick={() => handleResetZoom('dupont')} className="reset-zoom-btn">
-              Reset Zoom
-            </button>
-            <button
-              onClick={() => setMaximizedChart(maximizedChart === 'dupont' ? null : 'dupont')}
-              className="maximize-btn"
-            >
-              {maximizedChart === 'dupont' ? 'Minimize' : 'Maximize'}
-            </button>
+      <div className="charts-container">
+        <div className={`chart-section ${maximizedChart === 'shares' ? 'maximized' : ''}`}>
+          <div className="chart-header">
+            <h3>Shares & EPS Analysis</h3>
+            <div className="chart-controls">
+              <button onClick={() => handleResetZoom('shares')} className="reset-zoom-btn">
+                Reset Zoom
+              </button>
+              <button
+                onClick={() => setMaximizedChart(maximizedChart === 'shares' ? null : 'shares')}
+                className="maximize-btn"
+              >
+                {maximizedChart === 'shares' ? 'Minimize' : 'Maximize'}
+              </button>
+            </div>
+          </div>
+          <div className="chart-wrapper">
+            <SharesEPSChart data={sharesData} chartRef={chartRefs.shares} />
           </div>
         </div>
-        <div className="chart-wrapper">
-          <DupontChart data={dupontData} chartRef={chartRefs.dupont} />
-        </div>
-      </div>
 
-      <div className={`chart-section ${maximizedChart === 'leverage' ? 'maximized' : ''}`}>
-        <div className="chart-header">
-          <h3>Financial Leverage</h3>
-          <div className="chart-controls">
-            <button onClick={() => handleResetZoom('leverage')} className="reset-zoom-btn">
-              Reset Zoom
-            </button>
-            <button
-              onClick={() => setMaximizedChart(maximizedChart === 'leverage' ? null : 'leverage')}
-              className="maximize-btn"
-            >
-              {maximizedChart === 'leverage' ? 'Minimize' : 'Maximize'}
-            </button>
+        <div className={`chart-section ${maximizedChart === 'dupont' ? 'maximized' : ''}`}>
+          <div className="chart-header">
+            <h3>ROE & Profit Margin</h3>
+            <div className="chart-controls">
+              <button onClick={() => handleResetZoom('dupont')} className="reset-zoom-btn">
+                Reset Zoom
+              </button>
+              <button
+                onClick={() => setMaximizedChart(maximizedChart === 'dupont' ? null : 'dupont')}
+                className="maximize-btn"
+              >
+                {maximizedChart === 'dupont' ? 'Minimize' : 'Maximize'}
+              </button>
+            </div>
+          </div>
+          <div className="chart-wrapper">
+            <DupontChart data={dupontData} chartRef={chartRefs.dupont} />
           </div>
         </div>
-        <div className="chart-wrapper">
-          <LeverageChart data={leverageData} chartRef={chartRefs.leverage} />
+
+        <div className={`chart-section ${maximizedChart === 'leverage' ? 'maximized' : ''}`}>
+          <div className="chart-header">
+            <h3>Asset Turnover & Equity Multiplier</h3>
+            <div className="chart-controls">
+              <button onClick={() => handleResetZoom('leverage')} className="reset-zoom-btn">
+                Reset Zoom
+              </button>
+              <button
+                onClick={() => setMaximizedChart(maximizedChart === 'leverage' ? null : 'leverage')}
+                className="maximize-btn"
+              >
+                {maximizedChart === 'leverage' ? 'Minimize' : 'Maximize'}
+              </button>
+            </div>
+          </div>
+          <div className="chart-wrapper">
+            <LeverageChart data={leverageData} chartRef={chartRefs.leverage} />
+          </div>
         </div>
       </div>
     </div>

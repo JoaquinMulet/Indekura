@@ -1,0 +1,103 @@
+.valuation-method-page {
+  min-height: calc(100vh - 80px);
+  background-color: #ffffff;
+  padding: 40px 0;
+}
+
+.valuation-method-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.valuation-method-content h1 {
+  color: #1a365d;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.method-section {
+  margin-bottom: 2.5rem;
+}
+
+.method-section:last-child {
+  margin-bottom: 0;
+}
+
+.method-section h2 {
+  color: #2d3748;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.method-section h3 {
+  color: #4a5568;
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.75rem;
+  font-weight: 500;
+}
+
+.method-section p {
+  color: #4a5568;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.method-section p:last-child {
+  margin-bottom: 0;
+}
+
+.method-section ul {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.method-section li {
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.method-section li:last-child {
+  margin-bottom: 0;
+}
+
+.formula {
+  font-family: 'Courier New', monospace;
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  color: #2d3748;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+.formula-explanation {
+  font-size: 0.9rem;
+  color: #718096;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .valuation-method-content {
+    padding: 0 16px;
+  }
+
+  .valuation-method-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .method-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .method-section h3 {
+    font-size: 1.1rem;
+  }
+}

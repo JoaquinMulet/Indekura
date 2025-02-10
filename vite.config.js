@@ -15,5 +15,14 @@ export default defineConfig({
         }
       }
     }
+  },
+  server: {
+    proxy: {
+      '/valuation-api': {
+        target: 'https://function-bun-production-8d48.up.railway.app',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/valuation-api/, '')
+      }
+    }
   }
 })

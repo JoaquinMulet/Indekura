@@ -113,16 +113,16 @@
 }
 
 .website-link {
-  color: #2563eb;
+  color: #8B7355;
   text-decoration: none;
   font-size: 0.9rem;
   padding: 4px 12px;
-  border: 1px solid #2563eb;
+  border: 1px solid #8B7355;
   border-radius: 4px;
   transition: all 0.2s;
 }
 
 .website-link:hover {
-  background: #2563eb;
+  background: #8B7355;
   color: white;
 }
