@@ -25,7 +25,10 @@ const IndekuraValuation = ({ ticker }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`/valuation-api/?ticker=${ticker}`);
+      const baseUrl = import.meta.env.PROD 
+        ? 'https://function-bun-production-8d48.up.railway.app'
+        : '/valuation-api';
+      const response = await axios.get(`${baseUrl}/?ticker=${ticker}`);
       setValuationData(response.data);
       setLastFetchedTicker(ticker);
     } catch (err) {
