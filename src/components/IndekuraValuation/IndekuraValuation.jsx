@@ -25,15 +25,16 @@ const IndekuraValuation = ({ ticker }) => {
     setLoading(true);
     setError(null);
     try {
-      const baseUrl = import.meta.env.VITE_VALUATION_API_URL.replace(/\/$/, ''); 
-      const response = await axios.get(`${baseUrl}?ticker=${ticker}`); 
+      const baseUrl = import.meta.env.VITE_VALUATION_API_URL.replace(/\/$/, '');
+      const response = await axios.get(`${baseUrl}?ticker=${ticker}`);
       setValuationData(response.data);
       setLastFetchedTicker(ticker);
     } catch (err) {
-      setError('Error al obtener los datos de valoración');
-      console.error('Error en la valoración:', err);
+      console.error('Error detallado:', err);
+      setError(err.response?.data?.error || err.message || 'Error al obtener los datos de valoración');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleLearnMoreClick = () => {
