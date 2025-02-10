@@ -176,18 +176,16 @@ const Consultas = () => {
     <div className="consultas-container">
       <div className="search-section">
         <form onSubmit={handleSubmit} className="search-form">
-          <div className="search-inputs">
-            <input
-              type="text"
-              value={searchTicker}
-              onChange={(e) => setSearchTicker(e.target.value)}
-              placeholder="Ingrese el ticker (ej: AAPL)"
-              className="ticker-input"
-            />
-            <button type="submit" className="search-button">
-              Buscar
-            </button>
-          </div>
+          <input
+            type="text"
+            value={searchTicker}
+            onChange={(e) => setSearchTicker(e.target.value)}
+            placeholder="Ingrese el ticker (ej: AAPL)"
+            className="ticker-input"
+          />
+          <button type="submit" className="search-button">
+            Buscar
+          </button>
           {financialData && (
             <button type="button" onClick={handleExportToExcel} className="export-button">
               Descargar Excel

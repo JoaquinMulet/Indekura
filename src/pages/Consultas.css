@@ -104,20 +104,21 @@
 }
 
 .export-button {
-  position: absolute;
-  top: -3.5rem;
-  right: 0;
-  padding: 0.6rem 1.2rem;
-  background: #ffffff !important;
-  color: #333 !important;
-  border: 1px solid #ffffff;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  color: #333;
+  border: 1px solid #e2e8f0;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  margin-left: 0.75rem;
+}
+
+.export-button:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
 }
 
 .password-dialog {
@@ -233,6 +234,7 @@
     margin-bottom: 1.5rem;
     width: 100%;
     justify-content: center;
+    margin-left: 0;
   }
 
   .password-dialog-content {
