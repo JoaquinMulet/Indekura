@@ -18,10 +18,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/valuation-api': {
+      '/api': {
         target: 'https://function-bun-production-8d48.up.railway.app',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/valuation-api/, '')
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   }

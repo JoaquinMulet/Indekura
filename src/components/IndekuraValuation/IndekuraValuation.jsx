@@ -26,7 +26,7 @@ const IndekuraValuation = ({ ticker }) => {
     setError(null);
     try {
       // En desarrollo usamos el proxy, en producción la URL completa
-      const baseUrl = import.meta.env.DEV ? '/valuation-api' : import.meta.env.VITE_VALUATION_API_URL;
+      const baseUrl = import.meta.env.VITE_VALUATION_API_URL;
       const response = await axios.get(`${baseUrl}/?ticker=${ticker}`);
       setValuationData(response.data);
       setLastFetchedTicker(ticker);
