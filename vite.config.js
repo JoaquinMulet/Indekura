@@ -24,5 +24,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
+  },
+  base: '/',
+  preview: {
+    port: 5173,
+    strictPort: true,
+    historyApiFallback: true
   }
 })
