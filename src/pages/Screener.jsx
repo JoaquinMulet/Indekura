@@ -53,7 +53,7 @@ const Screener = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/empresas_filtradas_g_20250209.csv');
+        const response = await fetch('/empresas.csv');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
