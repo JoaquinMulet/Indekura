@@ -1,145 +1,160 @@
+/* Estilos para eliminar el scroll vertical */
+html, body {
+  overflow-y: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
 .error-message {
-  color: #d32f2f;
-  padding: 1rem;
-  margin: 1rem;
-  background-color: #ffffff;
-  border-radius: 4px;
-  font-family: 'Satoshi', sans-serif;
+  color: #ef4444;
+  padding: 1rem 1.5rem;
+  margin: 1rem auto;
+  background-color: #fee2e2;
+  border-radius: 8px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #fecaca;
+}
+
+.error-message::before {
+  content: "⚠️";
+  font-size: 1.2rem;
 }
 
 .screener-container {
-  padding: 2rem;
-  width: 100%;
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 0 auto;
-  background: #ffffff;
-  min-height: 100vh;
+  padding: 1rem 2rem 2rem; /* Aumentar el padding inferior */
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 70px); /* Ajustar para la barra de navegación */
+  margin-top: 70px; /* Espacio para la barra de navegación */
   box-sizing: border-box;
 }
 
-.screener-container h1 {
-  font-size: 2.5rem;
-  color: var(--corporate-green);
-  font-weight: 600;
-  text-align: center;
-  margin: 1rem 0 2rem;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.screener-section h2 {
+.page-title {
   font-size: 1.8rem;
-  color: var(--corporate-green);
-  margin-bottom: 1.5rem;
   font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  color: #1e293b;
 }
 
 .table-container {
-  overflow-x: auto;
-  background: #ffffff;
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
-}
-
-/* Estilos para WebKit (Chrome, Safari, etc.) */
-.table-container::-webkit-scrollbar {
-  height: 6px;
-  width: 6px;
-}
-
-.table-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.table-container::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
-  border-radius: 6px;
-}
-
-.table-container::-webkit-scrollbar-thumb:hover {
-  background-color: #94a3b8;
-}
-
-.table-container {
+  flex: 1;
   overflow: auto;
-  box-sizing: border-box;
-  width: 100%;
-  max-height: calc(100vh - 15rem);
-  border-radius: 8px;
-  box-shadow: none;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
-  font-family: 'Satoshi', sans-serif;
-  color: #000000;
-  background: #ffffff;
+  table-layout: fixed;
+  flex: 1;
 }
 
 .data-table thead {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 1;
+  background: #f8fafc;
 }
 
 .data-table th {
-  background: #ffffff;
-  padding: 12px;
+  background: #f8fafc;
+  padding: 14px 16px;
   text-align: left;
   font-weight: 600;
-  color: #1a1a1a;
-  border-bottom: 1px solid #ffffff;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
   white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.data-table th:hover {
+  background: #f1f5f9;
 }
 
 .data-table td {
-  padding: 12px;
-  border-bottom: 1px solid #ffffff;
-  color: #4a4a4a;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  transition: all 0.2s;
 }
 
 .data-table tr:hover {
-  background-color: #ffffff;
+  background-color: #f8fafc;
 }
 
 /* Estilos específicos para cada tipo de columna */
 .data-table td:nth-child(1) {  /* Score */
-  font-weight: 600;
-  color: #2563eb;
+  font-weight: 700;
+  color: #3b82f6;
   text-align: center;
+  background-color: rgba(59, 130, 246, 0.05);
+  border-right: 1px solid #f1f5f9;
 }
 
 .data-table td:nth-child(2) {  /* Symbol */
   font-weight: 600;
-  color: #1a1a1a;
+  color: #1e293b;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .data-table td:nth-child(3) {  /* Company Name */
-  min-width: 200px;
+  min-width: 220px;
+  font-weight: 500;
 }
 
 .data-table td:nth-child(4),   /* Sector */
 .data-table td:nth-child(5) {  /* Industry */
-  color: #666;
-  font-size: 0.85rem;
+  color: #64748b;
+  font-size: 0.9rem;
 }
 
 .data-table td:nth-child(6),   /* Current Price */
 .data-table td:nth-child(7),   /* Min Fair Value */
 .data-table td:nth-child(8) {  /* Max Fair Value */
-  font-family: monospace;
+  font-family: 'Roboto Mono', monospace;
   text-align: right;
   font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Colorear valores según comparación */
+.data-table td:nth-child(6) {  /* Current Price */
+  color: #334155;
+}
+
+.data-table td:nth-child(7) {  /* Min Fair Value */
+  color: #059669;
+}
+
+.data-table td:nth-child(8) {  /* Max Fair Value */
+  color: #0284c7;
 }
 
 .data-table td:nth-child(9) {  /* Currency */
   text-align: center;
   font-size: 0.85rem;
-  color: #666;
+  color: #64748b;
+  font-weight: 500;
 }
 
 .pagination {
@@ -147,31 +162,30 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background-color: #ffffff;
-  border-top: 1px solid #ffffff;
-  position: sticky;
-  bottom: 0;
-  z-index: 5;
+  padding: 0.75rem 0;
+  margin-top: auto;
+  margin-bottom: 1.5rem;
 }
 
 .pagination-button {
-  padding: 8px 16px;
-  border: 1px solid #ffffff;
-  background: #ffffff;
-  color: #1a1a1a;
-  border-radius: 4px;
-  cursor: pointer;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   font-size: 0.9rem;
-  transition: all 0.2s;
-  font-family: 'Satoshi', sans-serif;
-  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem; /* Margen inferior para los botones */
+  height: 38px; /* Altura fija para alinear con el texto */
 }
 
 .pagination-button:hover:not(:disabled) {
-  background: #ffffff;
-  border-color: #ffffff;
+  background-color: #e2e8f0;
+  color: #1e293b;
 }
 
 .pagination-button:disabled {
@@ -180,35 +194,38 @@
 }
 
 .page-info {
-  font-size: 0.9rem;
-  color: #666;
-  font-family: 'Satoshi', sans-serif;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #334155;
+  min-width: 120px;
+  justify-content: center;
+  height: 38px; /* Misma altura que los botones */
 }
 
 .search-form {
   display: flex;
   gap: 0.75rem;
-  max-width: 500px;
-  margin: 0 auto 3rem;
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  align-items: center;
 }
 
 .search-form input {
   flex: 1;
   padding: 0.75rem 1rem;
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.95rem;
-  background: #f8fafc;
   color: #333;
+  background-color: #ffffff;
   outline: none;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .search-form input:focus {
-  border-color: #94a3b8;
-  background: #ffffff;
-  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 .search-form input::placeholder {
@@ -217,40 +234,112 @@
 
 .search-form button {
   padding: 0.75rem 1.5rem;
-  background: #ffffff;
-  color: #333;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .search-form button:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1);
 }
 
-.table-header {
-  font-weight: 600;
-  color: var(--corporate-green);
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 2px solid #e2e8f0;
-  white-space: nowrap;
+.table-stats {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+  color: #64748b;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
   .screener-container {
-    padding: 10px;
+    padding: 1rem;
+  }
+  
+  .page-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
   }
   
   .data-table {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
   
   .data-table td,
   .data-table th {
-    padding: 8px;
+    padding: 10px 12px;
   }
+  
+  .pagination {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .pagination-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .search-form {
+    flex-direction: column;
+  }
+}
+
+/* Estilos para alternar colores de filas */
+.data-table tbody tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.data-table tbody tr:nth-child(even):hover {
+  background-color: #f1f5f9;
+}
+
+.loading {
+  text-align: center;
+  color: #334155;
+  padding: 3rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading::after {
+  content: "";
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #e2e8f0;
+  border-radius: 50%;
+  border-top-color: #3b82f6;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+  font-size: 1.1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin: 2rem auto;
+  max-width: 600px;
 }

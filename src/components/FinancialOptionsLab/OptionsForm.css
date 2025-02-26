@@ -1,0 +1,104 @@
+/* Estilos para el formulario de opciones financieras */
+
+.options-form-card {
+  border: 1px solid #eaeaea;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.options-form-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.options-form-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eaeaea;
+  padding: 1rem;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.form-text {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+/* Estilos para los radio buttons */
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.form-check-label strong {
+  font-size: 0.9rem;
+}
+
+.form-check-label .small {
+  font-size: 0.75rem;
+}
+
+/* Estilos para los input groups */
+.input-group-text {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+  color: #6c757d;
+}
+
+/* Estilos para el botón de cálculo */
+.btn-calculate {
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-calculate:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el datepicker */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+}
+
+/* Estilos para tooltips */
+.tooltip-icon {
+  font-size: 0.8rem;
+  color: #6c757d;
+  cursor: help;
+}
+
+/* Estilos para el mensaje informativo */
+.info-alert {
+  background-color: #e7f5ff;
+  border-color: #b8daff;
+  color: #0c63e4;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .section-title {
+    font-size: 0.9rem;
+  }
+}

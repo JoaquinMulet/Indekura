@@ -1,0 +1,860 @@
+/* Variables de color */
+:root {
+  --primary-color: #0A5C36;
+  --primary-light: rgba(10, 92, 54, 0.1);
+  --primary-hover: #084a2c;
+  --text-color: #333333;
+  --light-text: #666666;
+  --border-color: #cccccc;
+  --background-color: #f8f8f8;
+  --white: #ffffff;
+  --error-bg: #f8d7da;
+  --error-text: #721c24;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --border-radius: 8px;
+  --transition-speed: 0.3s;
+}
+
+/* Estilos generales */
+.financial-options-lab {
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevenir scroll horizontal */
+  padding-bottom: 30px;
+}
+
+.option-calculator-container {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  color: var(--text-color);
+  background-color: var(--white);
+  padding: 25px;
+  max-width: 1200px;
+  margin: 20px auto;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--transition-speed);
+}
+
+.option-calculator-container:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Estilos para inputs */
+input, select {
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif !important;
+  font-size: 14px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(10, 92, 54, 0.1) !important;
+  outline: none !important;
+}
+
+label {
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+  color: var(--text-color) !important;
+}
+
+/* Estilos para el DatePicker */
+.react-datepicker-wrapper {
+  width: 100%;
+  display: block;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+  display: block;
+}
+
+.date-picker-input {
+  width: 100% !important;
+  padding: 10px 12px !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 6px !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif !important;
+  font-size: 14px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.date-picker-input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px rgba(10, 92, 54, 0.1) !important;
+  outline: none !important;
+}
+
+.react-datepicker-popper {
+  z-index: 999 !important;
+}
+
+.react-datepicker {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius) !important;
+  background-color: #ffffff !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.react-datepicker__header {
+  background-color: var(--background-color) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  padding-top: 10px !important;
+}
+
+.react-datepicker__current-month, 
+.react-datepicker__day-name {
+  color: var(--text-color) !important;
+  font-weight: 500 !important;
+}
+
+.react-datepicker__day {
+  color: #000000 !important;
+  margin: 0.2rem !important;
+  border-radius: 50% !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  line-height: 2rem !important;
+  transition: background-color 0.2s !important;
+}
+
+.react-datepicker__day--selected, 
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: rgba(10, 92, 54, 0.2) !important;
+}
+
+/* Estilos para el encabezado del laboratorio */
+.lab-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 20px 30px;
+  margin-bottom: 30px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
+.lab-header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.lab-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+/* Título de la página con el mismo estilo que en Screener */
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  color: #1e293b;
+  text-align: left;
+}
+
+/* Contenedor para el título y la descripción */
+.title-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem 0.5rem;
+}
+
+/* Estilos para el contenedor del gráfico */
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 350px;
+  width: 100%;
+  margin-bottom: 25px;
+  background-color: #ffffff;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-speed);
+}
+
+.chart-container:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Estilos para el contenido del laboratorio */
+.lab-content {
+  padding: 0 1.5rem 3rem;
+  overflow-y: visible; /* Asegurar que el contenido pueda hacer scroll */
+}
+
+/* Estilos para los resultados */
+.results-container {
+  max-height: none; /* Eliminar altura máxima para permitir que crezca */
+  overflow-y: visible;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-speed);
+}
+
+.results-container:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.results-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary-light);
+}
+
+/* Estilos para botones */
+button {
+  padding: 10px 16px !important;
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s, transform 0.1s !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+button:hover {
+  background-color: var(--primary-hover) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+button:active {
+  transform: translateY(1px) !important;
+  box-shadow: none !important;
+}
+
+/* Estilos para grupos de formularios */
+.form-group {
+  margin-bottom: 20px !important;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .option-calculator-container {
+    padding: 15px;
+  }
+  
+  /* En pantallas pequeñas, asegurarse de que el formulario y los resultados ocupen todo el ancho */
+  .option-calculator-container > div {
+    flex-direction: column !important;
+  }
+  
+  .option-calculator-container > div > div {
+    margin-bottom: 20px;
+  }
+  
+  .lab-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .lab-header p {
+    font-size: 1rem;
+  }
+}
+
+/* Estilos para las tablas de resultados */
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.results-table th,
+.results-table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-top: 1px solid #e9ecef;
+}
+
+.results-table thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+  font-weight: 600;
+  text-align: left;
+}
+
+.results-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Estilos para los cards */
+.card {
+  border-radius: 8px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
+  overflow: visible; /* Permitir que el contenido sobresalga si es necesario */
+}
+
+.card-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+/* Estilos para los resultados */
+.results-panel {
+  height: auto; /* Permitir que crezca según el contenido */
+  max-height: none; /* Eliminar altura máxima */
+  overflow-y: visible;
+}
+
+.results-section {
+  margin-bottom: 1.5rem;
+}
+
+.results-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 0.5rem;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.result-label {
+  color: #6c757d;
+}
+
+.result-value {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Estilos responsivos */
+@media (max-width: 992px) {
+  .chart-container {
+    height: 350px;
+  }
+  
+  .lab-content {
+    padding: 0 1rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 300px;
+  }
+  
+  .lab-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .lab-header p {
+    font-size: 1rem;
+  }
+}
+
+/* Estilos para asegurar scroll vertical cuando sea necesario */
+html, body {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Estilos para los tooltips */
+.tooltip {
+  font-size: 0.875rem;
+}
+
+.tooltip-inner {
+  max-width: 300px;
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+/* Estilos para el spinner de carga */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Estilos para los escenarios */
+.scenarios-table-container {
+  max-height: 400px; /* Altura máxima para la tabla de escenarios */
+  overflow-y: auto; /* Permitir scroll vertical */
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #eaeaea;
+}
+
+.scenarios-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+/* Estilos para fijar el encabezado de la tabla de escenarios */
+.scenarios-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #f8f9fa;
+}
+
+/* Estilos para los botones de acción */
+.action-button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la sección de explicación del modelo */
+.model-explanation {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.model-explanation ul {
+  padding-left: 1.5rem;
+}
+
+.model-explanation li {
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para los Greeks */
+.greeks-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.greek-item {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.greek-name {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.25rem;
+}
+
+.greek-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.greek-description {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+/* Estilos para el selector de tipo de opción */
+.option-type-selector {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.option-type-btn {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-type-btn:hover {
+  background-color: #e9ecef;
+}
+
+.option-type-btn.active {
+  font-weight: 600;
+}
+
+.option-type-btn.put-active {
+  color: #0a5c36;
+  background-color: rgba(10, 92, 54, 0.05);
+}
+
+.option-type-btn.call-active {
+  color: #0369a1;
+  background-color: rgba(3, 105, 161, 0.05);
+}
+
+/* Estilos para items de resultado */
+.result-item {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #eaeaea;
+}
+
+.result-label {
+  font-weight: 500;
+  margin-right: 10px;
+  color: #555;
+}
+
+.result-value {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Estilos para tablas */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+  background-color: #ffffff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #eaeaea;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .option-calculator-container {
+    padding: 10px;
+  }
+  
+  /* En pantallas pequeñas, asegurarse de que el formulario y los resultados ocupen todo el ancho */
+  .option-calculator-container > div {
+    flex-direction: column !important;
+  }
+  
+  .option-calculator-container > div > div {
+    margin-bottom: 20px;
+  }
+}
+
+/* Estilos para tablas */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 1.5rem;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 0;
+  color: var(--text-color);
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid var(--border-color);
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid var(--border-color);
+  background-color: rgba(10, 92, 54, 0.05);
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid var(--border-color);
+}
+
+.table-bordered {
+  border: 1px solid var(--border-color);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--border-color);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(10, 92, 54, 0.05);
+}
+
+/* Resultados con colores por tipo de valor */
+.positive-result {
+  color: var(--success-color);
+}
+
+.negative-result {
+  color: var(--danger-color);
+}
+
+/* Responsive para el gráfico */
+#optionChart {
+  width: 100%;
+  height: 350px;
+  margin: 1.5rem 0;
+}
+
+/* Estilos para items de resultado */
+.result-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #eaeaea;
+}
+
+.result-label {
+  font-weight: 500;
+  margin-right: 10px;
+  color: #555;
+}
+
+.result-value {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Estilos para el selector de tipo de opción */
+.option-type-selector {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.option-type-btn {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-type-btn:hover {
+  background-color: #e9ecef;
+}
+
+.option-type-btn.active {
+  font-weight: 600;
+}
+
+.option-type-btn.put-active {
+  color: #0a5c36;
+  background-color: rgba(10, 92, 54, 0.05);
+}
+
+.option-type-btn.call-active {
+  color: #0369a1;
+  background-color: rgba(3, 105, 161, 0.05);
+}
+
+/* Animaciones y transiciones */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Tooltips personalizados */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Loader */
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid var(--primary-color);
+  width: 30px;
+  height: 30px;
+  animation: spin 1s infinite linear;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estados de alerta y notificación */
+.alert {
+  position: relative;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+}
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/* Mejoras para impresión */
+@media print {
+  .financial-options-lab {
+    margin-top: 0;
+    background-color: white;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .card {
+    border: none;
+    box-shadow: none;
+  }
+  
+  body {
+    font-size: 12pt;
+  }
+  
+  h1 {
+    font-size: 18pt;
+  }
+  
+  h2 {
+    font-size: 16pt;
+  }
+  
+  h3, h4, h5 {
+    font-size: 14pt;
+  }
+  
+  table {
+    page-break-inside: avoid;
+  }
+}
+
+@media (max-width: 768px) {
+  .option-type-selector {
+    flex-direction: column;
+  }
+  
+  .result-item {
+    margin-bottom: 10px;
+  }
+}

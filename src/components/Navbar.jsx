@@ -12,6 +12,9 @@ function Navbar() {
           <Link to="/screener" className="nav-link">
             Screener
           </Link>
+          <Link to="/financial-options-lab" className="nav-link">
+            Opciones
+          </Link>
           <Link to="/consultas" className="nav-link">
             Consultas
           </Link>

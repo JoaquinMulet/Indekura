@@ -1,49 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import './IndekuraValuation.css';
 import Modal from '../Modal/Modal';
-import { useNavigate } from 'react-router-dom';
+import { useValuation } from '../../hooks/useValuation';
+import { formatValuationValue } from '../../utils/formatters';
 
 const IndekuraValuation = ({ ticker }) => {
-  const [valuationData, setValuationData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [showMethodModal, setShowMethodModal] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [lastFetchedTicker, setLastFetchedTicker] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (ticker && ticker.trim() !== '' && ticker !== lastFetchedTicker) {
-      fetchValuationData();
-    }
-  }, [ticker, lastFetchedTicker]);
-
-  const fetchValuationData = async () => {
-    if (!ticker || ticker.trim() === '' || ticker === lastFetchedTicker) return;
-    
-    setLoading(true);
-    setError(null);
-    try {
-      const baseUrl = import.meta.env.VITE_VALUATION_API_URL.replace(/\/$/, '');
-      const response = await axios.get(`${baseUrl}?ticker=${ticker}`);
-      setValuationData(response.data);
-      setLastFetchedTicker(ticker);
-    } catch (err) {
-      console.error('Error detallado:', err);
-      setError(err.response?.data?.error || err.message || 'Error al obtener los datos de valoración');
-    } finally {
-      setLoading(false);
-    }
-  };
+  
+  const { valuationData, loading, error } = useValuation(ticker);
 
   const handleLearnMoreClick = () => {
     navigate('/historical-valuation');
-  };
-
-  const formatNumber = (value) => {
-    if (value === undefined || value === null) return 'N/A';
-    return typeof value === 'number' ? value.toFixed(2) : value;
   };
 
   if (loading) return <div className="valuation-loading">Cargando valoración...</div>;
@@ -74,25 +45,25 @@ const IndekuraValuation = ({ ticker }) => {
         <div className="valuation-item">
           <div className="item-content">
             <h3>EPS (TTM)</h3>
-            <p>${formatNumber(valuationData['Last EPS ttm'])}</p>
+            <p>${formatValuationValue(valuationData['Last EPS ttm'])}</p>
           </div>
         </div>
         <div className="valuation-item">
           <div className="item-content">
             <h3>Precio Mínimo Histórico Ajustado al EPS Actual</h3>
-            <p>${formatNumber(valuationData['Precio accion (con crecimiento historico minimo - 1er quintil)'])}</p>
+            <p>${formatValuationValue(valuationData['Precio accion (con crecimiento historico minimo - 1er quintil)'])}</p>
           </div>
         </div>
         <div className="valuation-item">
           <div className="item-content">
             <h3>Precio Conservador</h3>
-            <p>${formatNumber(valuationData['Precio accion (con crecimiento historico maximo - 2do quintil)'])}</p>
+            <p>${formatValuationValue(valuationData['Precio accion (con crecimiento historico maximo - 2do quintil)'])}</p>
           </div>
         </div>
         <div className="valuation-item">
           <div className="item-content">
             <h3>Precio Promedio</h3>
-            <p>${formatNumber(valuationData['Precio accion (con crecimiento medio del modelo'])}</p>
+            <p>${formatValuationValue(valuationData['Precio accion (con crecimiento medio del modelo'])}</p>
           </div>
         </div>
       </div>
@@ -134,6 +105,10 @@ const IndekuraValuation = ({ ticker }) => {
       </Modal>
     </div>
   );
+};
+
+IndekuraValuation.propTypes = {
+  ticker: PropTypes.string.isRequired
 };
 
 export default IndekuraValuation;

@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
 import './Nosotros.css';
 
 const Nosotros = () => {
-  useEffect(() => {
-    document.title = 'Indekura Hedge Fund - Información Legal';
-  }, []);
+  document.title = 'Indekura Hedge Fund - Información Legal';
 
   return (
     <div className="nosotros-container">
@@ -29,7 +26,7 @@ const Nosotros = () => {
           <p>
             Indekura se reserva el derecho de agregar, modificar o eliminar cualquier 
             información en este sitio web en cualquier momento. Esta publicación y cualquier 
-            referencia a productos o servicios se proporcionan "tal cual" sin ninguna 
+            referencia a productos o servicios se proporcionan &quot;tal cual&quot; sin ninguna 
             garantía o término implícito de ningún tipo. Se prohíbe la reproducción o 
             distribución de cualquier material obtenido en este sitio web o la vinculación 
             a este sitio web sin permiso por escrito.

@@ -1,0 +1,477 @@
+/* Estilos para la calculadora de opciones simple */
+:root {
+    --primary-color: #3a7bd5;
+    --primary-gradient: linear-gradient(to right, #3a7bd5, #00d2ff);
+    --secondary-color: #2c3e50;
+    --accent-color: #00d2ff;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    --border-radius: 12px;
+    --input-border: #e0e0e0;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --text-color: #333;
+    --text-light: #6c757d;
+}
+
+.option-calculator-container {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    max-width: 1100px;
+    margin: 80px auto 40px;
+    padding: 30px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    color: var(--text-color);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Elemento decorativo en el fondo */
+.option-calculator-container::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.option-calculator-container::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    opacity: 0.03;
+    z-index: 0;
+}
+
+.option-calculator-container h1 {
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 2.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    z-index: 1;
+}
+
+.description {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.calculator-columns {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.calculator-column {
+    flex: 1;
+    background-color: var(--light-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.calculator-column::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--primary-gradient);
+    opacity: 0.7;
+}
+
+.calculator-column:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+}
+
+.input-group input, 
+.input-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: white;
+}
+
+.input-group input:focus, 
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
+}
+
+.input-group button {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.input-group button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: transform 0.5s ease;
+    transform: skewX(-15deg);
+}
+
+.input-group button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.input-group button:hover::before {
+    transform: translateX(200%) skewX(-15deg);
+}
+
+.input-group button:disabled {
+    background: #b3b3b3;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.result {
+    margin-top: 30px;
+    padding: 25px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    border-left: 5px solid var(--primary-color);
+    box-shadow: var(--card-shadow);
+    position: relative;
+    z-index: 1;
+}
+
+.error-message {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #fef2f2;
+    border-radius: var(--border-radius);
+    border-left: 5px solid var(--danger-color);
+    color: var(--danger-color);
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.chart-container {
+    margin-top: 40px;
+    height: 450px;
+    width: 100%;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    z-index: 1;
+}
+
+/* Estilos responsivos */
+@media (max-width: 992px) {
+    .option-calculator-container {
+        padding: 25px;
+        margin: 70px auto 30px;
+    }
+    
+    .option-calculator-container h1 {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .calculator-columns {
+        flex-direction: column;
+    }
+    
+    .option-calculator-container {
+        padding: 20px;
+        margin: 60px auto 20px;
+    }
+    
+    .chart-container {
+        height: 350px;
+    }
+    
+    .option-calculator-container h1 {
+        font-size: 1.8rem;
+    }
+    
+    .description {
+        font-size: 1rem;
+    }
+}
+
+/* Estilos para los resultados */
+.result-container {
+    margin-top: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.result p {
+    margin: 12px 0;
+    font-size: 1.05rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed rgba(0,0,0,0.05);
+    padding-bottom: 8px;
+}
+
+.result p:last-child {
+    border-bottom: none;
+}
+
+.result strong {
+    color: var(--secondary-color);
+    margin-right: 10px;
+}
+
+.result p:last-child {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f0f9ff;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+}
+
+/* Estilos para el spinner de carga */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Estilos para tipos de opciones */
+.call-value {
+    color: #2980b9;
+    font-weight: 600;
+}
+
+.put-value {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+/* Estilos para tooltips */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+    margin-left: 5px;
+}
+
+.tooltip .tooltip-icon {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.85rem;
+    font-weight: normal;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--secondary-color) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.option-calculator-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.calculator-column:nth-child(1) {
+    animation: fadeIn 0.5s ease-out 0.1s both;
+}
+
+.calculator-column:nth-child(2) {
+    animation: fadeIn 0.5s ease-out 0.2s both;
+}
+
+.calculator-column:nth-child(3) {
+    animation: fadeIn 0.5s ease-out 0.3s both;
+}
+
+/* Estilos para el footer */
+.calculator-footer {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-align: center;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.calculator-footer p {
+    margin: 8px 0;
+}
+
+.calculator-footer strong {
+    color: var(--secondary-color);
+}
+
+/* Estilos para el loading de datos de mercado */
+.market-data-loading {
+    display: inline-flex;
+    align-items: center;
+    font-style: italic;
+    color: var(--primary-color);
+}
+
+.market-data-loading .spinner {
+    width: 12px;
+    height: 12px;
+    border-color: rgba(58, 123, 213, 0.3);
+    border-top-color: var(--primary-color);
+    margin-right: 5px;
+}
+
+/* Mejoras adicionales para dispositivos móviles */
+@media (max-width: 576px) {
+    .option-calculator-container {
+        padding: 15px;
+        margin: 50px auto 20px;
+    }
+    
+    .option-calculator-container h1 {
+        font-size: 1.5rem;
+    }
+    
+    .description {
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+    }
+    
+    .calculator-column {
+        padding: 15px;
+    }
+    
+    .input-group label {
+        font-size: 0.9rem;
+    }
+    
+    .input-group input, 
+    .input-group select {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .result p {
+        font-size: 0.95rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .result p span {
+        margin-top: 4px;
+    }
+    
+    .chart-container {
+        height: 300px;
+        padding: 10px;
+    }
+}
