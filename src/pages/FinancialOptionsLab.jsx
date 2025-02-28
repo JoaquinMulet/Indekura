@@ -54,13 +54,53 @@ const FinancialOptionsLab = () => {
     document.title = 'Indekura Hedge Fund - Calculadora de Opciones';
   }, []);
 
+  // Efecto para cargar datos de mercado desde la API
+  useEffect(() => {
+    const loadMarketData = async () => {
+      try {
+        setIsLoading(true);
+        const data = await optionService.getCurrencyData();
+        
+        // Actualizar los inputs con los datos obtenidos
+        // Aseguramos que el precio strike sea igual al precio spot
+        const spotRate = data.currentRate;
+        setInputs(prev => ({
+          ...prev,
+          spot: spotRate,
+          strike: spotRate, // Establecer strike igual a spot
+          volatility: data.volatility
+        }));
+        
+        console.log('Datos de mercado cargados:', data);
+      } catch (error) {
+        console.error('Error al cargar datos de mercado:', error);
+        // No establecemos error en el estado para no mostrar mensaje de error al usuario
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadMarketData();
+  }, []);
+
   // Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setInputs(prev => ({
-      ...prev,
-      [name]: value === '' ? '' : parseFloat(value)
-    }));
+    
+    // Si el campo que cambió es 'spot', actualizamos también 'strike'
+    if (name === 'spot') {
+      const numValue = value === '' ? '' : parseFloat(value);
+      setInputs(prev => ({
+        ...prev,
+        spot: numValue,
+        strike: numValue // Establecer strike igual a spot
+      }));
+    } else {
+      setInputs(prev => ({
+        ...prev,
+        [name]: value === '' ? '' : parseFloat(value)
+      }));
+    }
   };
 
   // Manejar cambios en la fecha de vencimiento

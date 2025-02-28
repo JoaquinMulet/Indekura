@@ -54,15 +54,22 @@ const OptionForm = ({
           value={inputs.strike === '' ? '' : inputs.strike} 
           onChange={handleInputChange}
           step="0.01"
+          disabled={true} 
           style={{ 
             padding: '8px',
             border: '1px solid #ccc',
             borderRadius: '3px',
             width: '100%',
-            backgroundColor: '#ffffff',
+            backgroundColor: '#f5f5f5', 
             color: '#000000'
           }}
         />
+        <small style={{ 
+          display: 'block', 
+          marginTop: '4px', 
+          color: '#666666',
+          fontSize: '0.8rem'
+        }}>El precio strike es igual al precio spot para ATM (At-The-Money)</small>
       </div>
       
       <div className="input-group" style={{ marginBottom: '15px' }}>

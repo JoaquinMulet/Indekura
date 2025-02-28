@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Constantes
-const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY = import.meta.env.VITE_FINANCE_API_URL;
 const VALUATION_API_URL = import.meta.env.VITE_VALUATION_API_URL;
 
 // Crear instancia de axios con configuración base

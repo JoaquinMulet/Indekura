@@ -168,12 +168,15 @@ export const getCurrencyData = async () => {
     // Usar el nuevo servicio de datos de mercado
     const marketData = await getMarketData('USD', 'CLP');
     
+    // Obtener la volatilidad correcta del objeto
+    const volatility = marketData.volatility?.clpUsd || marketData.volatility?.usdClp || 0.159;
+    
     console.log(`Tipo de cambio obtenido: ${marketData.currentRate} (USD/CLP)`);
-    console.log(`Volatilidad obtenida: ${marketData.volatility * 100}%`);
+    console.log(`Volatilidad obtenida: ${volatility * 100}%`);
     
     return {
       currentRate: parseFloat(marketData.currentRate.toFixed(2)),
-      volatility: parseFloat(marketData.volatility.toFixed(4)),
+      volatility: parseFloat(volatility.toFixed(4)),
       lastUpdated: marketData.lastUpdated,
       source: marketData.source
     };
