@@ -19,26 +19,33 @@
 
 /* Estilos generales */
 .financial-options-lab {
-  max-width: 100%;
-  margin: 0 auto;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  background-color: var(--background-color);
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   color: var(--text-color);
   line-height: 1.6;
   overflow-x: hidden; /* Prevenir scroll horizontal */
-  padding-bottom: 30px;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 2rem 2rem 2rem; /* Mismo padding que el Screener */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px); /* Ajustar para la barra de navegación */
+  margin-top: 70px; /* Espacio para la barra de navegación, igual que el Screener */
+  box-sizing: border-box;
 }
 
 .option-calculator-container {
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
-  color: var(--text-color);
   background-color: var(--white);
-  padding: 25px;
-  max-width: 1200px;
-  margin: 20px auto;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-md);
   transition: box-shadow var(--transition-speed);
+  margin: 0 auto 20px;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .option-calculator-container:hover {
