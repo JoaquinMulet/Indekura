@@ -7,7 +7,7 @@
 import axios from 'axios';
 
 // URL base de la API (URL proporcionada por Railway)
-const API_BASE_URL = import.meta.env.VITE_FINANCE_API_URL || 'https://abundant-enthusiasm-production.up.railway.app';
+const API_BASE_URL = import.meta.env.VITE_OPTIONS_API_URL || 'https://abundant-enthusiasm-production.up.railway.app';
 
 // Crear instancia de axios con configuración base
 const apiClient = axios.create({
