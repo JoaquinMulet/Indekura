@@ -1,46 +1,51 @@
+/* Consultas.css - Reorganizado y Mejorado */
+
+/* --- 1. Contenedor Principal --- */
 .consultas-container {
   padding: 2rem;
   width: 100%;
-  max-width: 1800px;
+  max-width: 1800px; /* Considera si este ancho es necesario o si puede ser menor */
   margin: 0 auto;
-  background: #ffffff;
-  min-height: 100vh;
+  background: #ffffff; /* Fondo blanco para toda la página de consultas */
 }
 
+/* --- 2. Sección de Búsqueda Inicial (Superior) --- */
+/* Si decides mantener la sección separada, puedes usar estos estilos */
 .search-section {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  max-width: 800px;
-  margin: 0 auto 3rem;
+  /* display: flex; */ /* Descomenta si necesitas flexbox aquí */
+  /* align-items: center; */
+  /* gap: 1rem; */
+   max-width: 800px; /* Limita el ancho del formulario inicial si lo deseas */
+   margin: 0 auto 2rem; /* Centrado y con margen inferior para separar de futuros resultados */
 }
 
+/* --- 3. Estilos Comunes para Formularios de Búsqueda --- */
+/* Aplica a AMBOS formularios (inicial y en resultados) */
 .search-form {
   display: flex;
   gap: 0.75rem;
-  max-width: 800px;
-  margin: 0 auto 3rem;
   align-items: center;
+  /* flex-grow: 1; */ /* Puede ser necesario si está dentro de otro flex container */
 }
 
 .search-form input {
-  flex: 1;
+  flex: 1; /* El input ocupa el espacio disponible */
   padding: 0.75rem 1rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e2e8f0; /* Gris claro */
   border-radius: 6px;
   font-size: 0.95rem;
-  color: #333;
+  color: #333; /* Texto oscuro */
   outline: none;
   transition: border-color 0.2s ease;
 }
 
 .search-form input:focus {
-  border-color: #94a3b8;
-  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1);
+  border-color: #94a3b8; /* Gris más oscuro al enfocar */
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1); /* Sutil brillo */
 }
 
 .search-form input::placeholder {
-  color: #94a3b8;
+  color: #94a3b8; /* Color del placeholder */
 }
 
 .search-form button {
@@ -52,58 +57,67 @@
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  white-space: nowrap;
+  white-space: nowrap; /* Evita que el texto del botón se parta */
 }
 
 .search-form button:hover {
-  background: #f8fafc;
+  background: #f8fafc; /* Fondo ligeramente gris al pasar el mouse */
   border-color: #94a3b8;
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.consultas-content {
-  width: 100%;
-  max-width: 1800px;
-  padding: 2rem;
-  background: #ffffff;
-}
-
+/* --- 4. Estados (Loading y Error) --- */
 .loading {
   text-align: center;
   color: #333;
   padding: 2rem;
   font-size: 0.95rem;
+  margin-top: 2rem; /* Añade espacio si viene después del form inicial */
 }
 
 .error {
-  color: #ef4444;
+  color: #ef4444; /* Rojo para errores */
   text-align: center;
   padding: 1rem;
-  background: #ffffff;
-  border: 1px solid #ffffff;
+  background: #fee2e2; /* Fondo rojo muy claro */
+  border: 1px solid #ef4444;
   border-radius: 6px;
-  margin: 1rem auto;
-  max-width: 500px;
+  margin: 1rem auto; /* Centrado y con margen vertical */
+  max-width: 600px; /* Ancho máximo para el mensaje */
   font-size: 0.95rem;
 }
 
+/* --- 5. Contenedor de Resultados --- */
 .results-container {
-  margin-top: 2rem;
-  position: relative;
+  /* margin-top: 40rem; */ /* ELIMINADO - Esta era la causa principal del salto */
+  margin-top: 45rem;      /* NUEVO - Añade un espacio razonable arriba */
+  position: relative;     /* Mantenido por si necesitas posicionar algo dentro absolutamente */
 }
 
+/* --- 6. Encabezado de Resultados --- */
+.results-header {
+  display: flex;
+  justify-content: space-between; /* Formulario a la izq, botón a la der */
+  align-items: center;
+  padding-bottom: 1.5rem; /* Espacio debajo de la línea */
+  margin-bottom: 1.5rem;  /* Espacio antes del contenido real */
+  border-bottom: 1px solid #e2e8f0; /* Línea separadora */
+  gap: 1rem; /* Espacio entre elementos si no ocupan todo el ancho */
+}
+
+/* --- 7. Formulario de Búsqueda DENTRO de Resultados --- */
+/* Estilos específicos si el form en resultados necesita diferir del general */
+.search-form-in-results {
+  /* Hereda estilos de .search-form */
+  flex-grow: 1; /* Ocupa espacio disponible en el header */
+  max-width: 600px; /* Limita el ancho si no quieres que ocupe todo */
+}
+/* Si necesitas estilos MUY específicos para input/button DENTRO de este form: */
+/* .search-form-in-results input { ... } */
+/* .search-form-in-results button { ... } */
+
+/* --- 8. Botón de Exportar --- */
 .export-button {
+  /* Hereda algunos estilos de button si comparten clases base, o define aquí */
   padding: 0.75rem 1.5rem;
   background: #ffffff;
   color: #333;
@@ -113,7 +127,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-  margin-left: 0.75rem;
+  /* margin-left: auto; */ /* No es necesario si el form usa flex-grow: 1 y header usa space-between */
+  /* Comentados eliminados porque ya no aplican con la nueva estructura */
 }
 
 .export-button:hover {
@@ -121,18 +136,25 @@
   border-color: #94a3b8;
 }
 
+/* --- 9. Contenido Real de los Resultados --- */
+/* Contenedor opcional si necesitas padding/margen específico aquí */
+.results-actual-content {
+  /* padding-top: 1rem; */ /* Ejemplo si necesitas espacio extra */
+}
+
+/* --- 10. Diálogo de Contraseña --- */
 .password-dialog {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.95); /* Fondo semi-transparente */
+  backdrop-filter: blur(4px); /* Efecto blur (si el navegador lo soporta) */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 1000; /* Asegura que esté por encima de todo */
 }
 
 .password-dialog-content {
@@ -141,8 +163,8 @@
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
-  border: 1px solid #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,7 +182,7 @@
 .password-dialog input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ffffff;
+  border: 1px solid #cbd5e1; /* Gris medio */
   border-radius: 6px;
   margin: 0.5rem 0 1.5rem;
   font-size: 0.95rem;
@@ -171,8 +193,8 @@
 }
 
 .password-dialog input:focus {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+  border-color: #94a3b8;
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1);
 }
 
 .password-dialog-buttons {
@@ -183,62 +205,102 @@
 }
 
 .password-dialog button {
-  flex: 1;
-  max-width: 150px;
+  flex: 1; /* Ocupan el espacio disponible */
+  max-width: 150px; /* Limita el ancho de los botones */
   padding: 0.75rem;
-  border: 1px solid #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s ease;
   background: #ffffff;
-}
-
-.password-dialog button:first-child {
   color: #333;
 }
 
-.password-dialog button:first-child:hover {
-  background: #ffffff;
-  border-color: #ffffff;
+.password-dialog button:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
 }
 
-.password-dialog button:last-child {
-  color: #333;
+/* --- 11. Clases de Utilidad --- */
+.visually-hidden { /* Para accesibilidad, oculta visualmente pero no para screen readers */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.password-dialog button:last-child:hover {
-  background: #ffffff;
-  border-color: #ffffff;
-}
-
+/* --- 12. Media Queries (Responsividad) --- */
 @media (max-width: 768px) {
+  /* Ajustes generales para móvil */
   .consultas-container {
-    padding: 1.5rem;
+    padding: 1rem; /* Menos padding en pantallas pequeñas */
   }
 
+  /* Ajustes sección de búsqueda inicial (si la usas) */
   .search-section {
-    flex-direction: column;
-  }
-
-  .search-form {
-    flex-direction: column;
-  }
-
-  .search-form button {
-    width: 100%;
-  }
-
-  .export-button {
-    position: static;
+    max-width: none; /* Ocupa todo el ancho disponible */
     margin-bottom: 1.5rem;
-    width: 100%;
-    justify-content: center;
-    margin-left: 0;
+  }
+  .search-section .search-form { /* Si el form inicial necesita apilarse */
+     flex-direction: column;
+     align-items: stretch;
+  }
+   .search-section .search-form button {
+     width: 100%;
+   }
+
+  /* Ajustes header de resultados en móvil */
+  .results-header {
+    flex-direction: column; /* Apilar formulario y botón */
+    align-items: stretch; /* Estirar elementos al ancho completo */
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    gap: 1rem;
   }
 
+  /* Ajustes form de búsqueda en resultados (móvil) */
+  .search-form-in-results {
+    max-width: none; /* Ocupar todo el ancho */
+    width: 100%;
+  }
+  /* .search-form-in-results input { ... } */ /* Ajustes específicos si son necesarios */
+  .search-form-in-results button {
+     padding: 0.75rem 1rem; /* Quizás un poco menos padding lateral */
+  }
+
+  /* Ajustes botón exportar (móvil) */
+  .export-button {
+    width: 100%;      /* Ocupar todo el ancho */
+    margin-left: 0;
+    text-align: center; /* Centrar texto del botón */
+  }
+
+  /* Ajuste margen superior de resultados en móvil (si es necesario) */
+  /* Si el margen de 3rem aún es mucho para móvil, ajústalo aquí */
+  /* .results-container {
+     margin-top: 1.5rem;
+  } */
+
+  /* Ajustes diálogo contraseña (móvil) */
   .password-dialog-content {
     padding: 1.5rem;
-    margin: 1rem;
+    margin: 1rem; /* Añade un pequeño margen exterior */
+  }
+
+  .password-dialog-buttons {
+    flex-direction: column-reverse; /* Botón confirmar arriba, cancelar abajo */
+    align-items: stretch;
+  }
+
+  .password-dialog button {
+    max-width: none; /* Ocupar ancho completo en columna */
   }
 }
+
+/* --- Fin de Consultas.css --- */

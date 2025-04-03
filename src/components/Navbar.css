@@ -1,17 +1,21 @@
+/* Navbar.css */
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background: white;
-  padding: 1rem 0;
+  padding: 1rem 0; /* Este padding es interno, no afecta la altura total */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  height: 64px;
+  height: var(--navbar-height); /* <-- USA LA VARIABLE */
   display: flex;
   align-items: center;
+  box-sizing: border-box; /* Añadir por si acaso el padding interno afecta */
 }
 
+/* --- .nav-container, .nav-links, .nav-link SIN CAMBIOS --- */
 .nav-container {
   width: 100%;
   display: flex;
@@ -44,9 +48,14 @@
   text-decoration: none;
 }
 
+
 @media (max-width: 768px) {
   .navbar {
-    height: auto;
+     /* OPCIÓN A (Recomendada si es posible): Mantener altura fija también en móvil */
+     /* height: var(--navbar-height); */ /* La variable ya se ajusta en App.css si es necesario */
+
+     /* OPCIÓN B: Si REALMENTE necesitas 'height: auto' */
+     height: auto; /* Mantenlo si es necesario, PERO DEBES asegurarte que --navbar-height en App.css @media coincida con la altura que tome */
   }
 
   .nav-container {

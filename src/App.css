@@ -1,5 +1,8 @@
+/* App.css */
+
 :root {
   --corporate-green: #00594c;
+  --navbar-height: 64px; /* Altura base del Navbar */
 }
 
 * {
@@ -12,7 +15,6 @@ body {
   margin: 0;
   padding: 0;
   background: #f5f5f5;
-  min-height: 100vh;
   font-family: 'Satoshi', sans-serif;
 }
 
@@ -28,23 +30,24 @@ html {
   flex-direction: column;
 }
 
-.app {
-  min-height: 100vh;
-  background-color: white;
-}
-
 .app-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-top: 0px;
 }
 
 .page-container {
   flex: 1;
-  padding-top: 4rem;
+  /* padding-top: var(--navbar-height); */ /* Original con variable */
+  padding-top: calc(var(--navbar-height) + 1rem); /* MODIFICADO: Añade 1rem (o el valor que prefieras) extra */
   width: 100%;
   box-sizing: border-box;
+}
+
+main {
+  width: 100%;
+  background: #ffffff;
+  /* min-height ya no es necesario aquí si flex lo maneja */
 }
 
 .title {
@@ -59,13 +62,6 @@ html {
   letter-spacing: -0.02em;
 }
 
-main {
-  width: 100%;
-  min-height: 100vh;
-  background: #ffffff;
-}
-
-/* Estilos estandarizados para títulos de página */
 .page-title {
   font-size: 2.5rem;
   color: var(--corporate-green);
@@ -78,11 +74,25 @@ main {
   width: 100%;
 }
 
-/* Media queries para títulos responsivos */
+/* --- Media Queries --- */
 @media (max-width: 768px) {
-  .page-container {
-    padding: 4rem 1rem 1rem;
+  :root {
+     /* Ajusta esta variable si la altura en móvil es diferente */
+     /* Por ejemplo, si mide 80px en móvil: --navbar-height: 80px; */
+    --navbar-height: 64px; /* O el valor que mida tu navbar en móvil */
   }
+
+  .page-container {
+    /* La regla 'padding-top: calc(var(--navbar-height) + 1rem);' definida arriba */
+    /* se aplicará aquí también, usando el valor de --navbar-height definido */
+    /* dentro de esta media query. */
+
+    /* Solo necesitamos definir los otros paddings si cambian */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+  }
+
   .page-title {
     font-size: 2rem;
     margin: 0 0 1.5rem 0;
